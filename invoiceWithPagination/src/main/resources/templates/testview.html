@@ -1,0 +1,227 @@
+<!-- <!DOCTYPE html>
+<html xmlns="http://thymeleaf.org">
+ -->
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout/layout">
+
+<head>
+		 
+</head>
+
+<body>
+<div layout:fragment="content">
+<!-- <div class="container-fluid"> -->
+<!--  <div class="row"> -->
+		<div class="col-sm-12">
+		<div align="left" style="margin: 2%;">
+		<button class="btn btn-success nBtn">New</button>
+		</div>
+			<div class="panel panel-default" align="center" style="margin: 2%;">
+			
+				<div class="panel-heading" align="center">
+					<strong>List of Clients</strong>
+				</div>
+				
+				<div class="panel-body scrollable-panel">
+					<div class="row">
+						<div class="col-lg-12" id="dvData">
+						<!-- table-responsive x table-bordered -->
+							<table
+								class="table table-hover table-responsive x table-bordered"
+								id="tabledata">
+								<thead style="background-color: activecaption;" id="headers">
+									<tr>
+										<!-- <th>#</th> -->
+										<th><strong>Client Id</strong></th>
+										<th><strong>Client Name</strong></th>
+										<th><strong>Address</strong></th>
+										<th><strong>Phone</strong></th>
+										<th><strong>Mobile</strong></th>
+										<th><strong>Fax</strong></th>
+										<th><strong>Email</strong></th>
+										<th><strong>GSTIN</strong></th>
+										<th colspan="3"><strong>Action</strong></th>
+									</tr>
+								</thead>
+								<tbody>
+								
+
+											 <tr th:each="clientlist : ${clientlist.content}">
+											 	<!-- <td th:text="${itertor.index+1}"></td> -->
+												<td th:text="${clientlist.client_id}"></td>												
+												<td th:text=${clientlist.client_name}></td>
+												<td th:text=${clientlist.client_address}></td>
+												<td th:text=${clientlist.client_landline}></td>
+												<td th:text=${clientlist.client_mobile}></td>
+												<td th:text=${clientlist.client_fax}></td>
+												<td th:text=${clientlist.client_email}></td>
+												<td th:text=${clientlist.client_gstin_uin}></td>
+												 
+												<td><a
+													th:href="@{/findone/(clientId=${clientlist.client_id})}"
+													class="btn btn-primary btn-circle btn-sm eBtn">
+													<i class="fa fa-edit "></i>Edit</a>
+												</td>
+												
+												<td><a
+													th:href="@{/delete/(clientId=${clientlist.client_id})}"
+													class="btn btn-danger btn-circle btn-sm delBtn">
+													<i class="fa fa-trash-o "></i>Delete</a>
+												</td>
+												
+											   </tr>
+								</tbody>
+							</table>
+							<hr/>
+							<!-- 
+							<ul class="nav nav-pills">
+							<li  class="nav-item" th:each="i:${#numbers.sequence(0,users.totalPages-1)}" >
+							<a th:href="@{/test/(page=${i})}" th:text="${i}" class="nav-link"
+							   th:classappend="${currentPage}==${i}?'active':''"></a>
+							</li>
+ 							</ul>
+							 -->
+		<!--  -->
+		<div class="row">
+				<div class="form-group col-md-1">
+					<select class="form-control pagination" id="pageSizeSelect">
+						<option th:each="pageSize : ${pageSizes}" th:text="${pageSize}"
+							th:value="${pageSize}"
+							th:selected="${pageSize} == ${selectedPageSize}"></option>
+					</select>
+				</div>
+				<div th:if="${clientlist.totalPages != 1}" id="pageoption"
+					class="form-group col-md-11 pagination-centered">
+					<nav>
+					<ul class="pagination">
+						<li th:class="${clientlist.number == 0} ? 'page-item disabled'"><a
+							class="pageLink"
+							th:href="@{/pageview(pageSize=${selectedPageSize}, page=1)}">&laquo;</a>
+						</li>
+						<li th:class="${clientlist.number == 0} ?'page-item disabled'"><a
+							class="pageLink"
+							th:href="@{/pageview(pageSize=${selectedPageSize}, page=${clientlist.number})}">&larr;</a>
+						</li>
+						<li
+							th:class="${clientlist.number == (page - 1)} ? 'page-item active pointer-disabled'"
+							th:each="page : ${#numbers.sequence(pager.startPage, pager.endPage)}">
+							<a class="pageLink"
+							th:href="@{/pageview(pageSize=${selectedPageSize}, page=${page})}"
+							th:text="${page}"></a>
+						</li>
+						<li
+							th:class="${clientlist.number + 1 == clientlist.totalPages} ? 'page-item disabled'">
+							<a class="pageLink"
+							th:href="@{/pageview(pageSize=${selectedPageSize}, page=${clientlist.number + 2})}">&rarr;</a>
+						</li>
+						<li
+							th:class="${clientlist.number + 1 == clientlist.totalPages} ? 'page-item disabled'">
+							<a class="pageLink"
+							th:href="@{/pageview(pageSize=${selectedPageSize}, page=${clientlist.totalPages})}">&raquo;</a>
+						</li>
+					</ul>
+					</nav>
+				</div>
+			</div>
+		<!--  -->
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="myform">
+		        <form th:action="@{/save}" method="post" th:object="${client}" >
+			   <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+				  <div class="modal-dialog" role="document">
+				    <div class="modal-content">
+				      <div class="modal-header">
+				        <h5 class="modal-title" id="exampleModalLabel">Add/Update Client</h5>
+				        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				          <span aria-hidden="true">&times;</span>
+				        </button>
+				      </div>
+				      <div class="modal-body">
+				          <input type="hidden" id="client_id" th:field="*{client_id}">
+				          
+				          <div class="form-group ">
+				            <label for="client_name" class="col-form-label ">Name:</label>
+				            <!-- pattern="[a-zA-Z] -->
+				            <input type="text" class="form-control" id="client_name" placeholder="Client Name" th:field="*{client_name}">
+				          </div>
+				          
+				          <div class="form-group ">
+				            <label for="client_address" class="col-form-label">Address:</label>
+				            <input type="text"  class="form-control" id="client_address" placeholder="Client Address" th:field="*{client_address}">
+				          </div>
+				          <div class="row">
+					          <div class="form-group col-sm-6">
+					            <label for="client_mobile" class="col-form-label">Mobile:</label>
+					            <input type="tel"  class="form-control" id="client_mobile" th:field="*{client_mobile}" placeholder="Mobile"  pattern="[7-9]{1}[0-9]{9}" 
+	       				         title="Phone number with 7-9 and remaing 9 digit with 0-9"  maxlength="10" minlength="10">
+					          </div>
+					          
+					          <div class="form-group col-sm-6">
+					            <label for="client_landline" class="col-form-label">Land Line:</label>
+					            <input type="tel"  class="form-control" id="client_landline" th:field="*{client_landline}" placeholder="Land Line"  pattern="[0]{1}[0-9]{9}"
+	       				         title="Land Line number with 7-9 and remaing 9 digit with 0-9"  maxlength="10" minlength="10">
+					          </div>
+				           </div>
+				           <div class="row">
+				          <div class="form-group col-sm-6">
+				            <label for="client_fax" class="col-form-label">Fax:</label>
+				            <input type="tel"  class="form-control" id="client_fax" th:field="*{client_fax}" placeholder="Fax"  pattern="[0]{1}[0-9]{9}"
+       				         title="Fax number with 7-9 and remaing 9 digit with 0-9"  maxlength="10" minlength="10">
+				          </div>
+				          		
+						  <div class="form-group col-sm-6">
+				            <label for="client_email" class="col-form-label">Email:</label>
+				            <input type="email"   class="form-control" id="client_email" th:field="*{client_email}" placeholder="Email"  pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$">
+				          </div>
+				          </div>
+				          <div class="form-group">
+				            <label for="client_gstin_uin" class="col-form-label">Gstin:</label>
+				            <input type="text"  class="form-control" id="client_gstin_uin" th:field="*{client_gstin_uin}" placeholder="GSTIN" >
+				          </div>
+				        		          				          				      
+				    
+                      </div>
+				      <div class="modal-footer">
+				        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+				        <input type="submit" class="btn btn-primary" value="Save"/>
+				      </div>
+				    </div>
+				  </div>
+				</div>
+		        </form>
+		</div>
+        
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		  <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h5 class="modal-title" id="exampleModalLabel">Please Confirm!!!</h5>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">&times;</span>
+		        </button>
+		      </div>
+		      <div class="modal-body">
+		        <p class="alert alert-danger">
+		        Are You Sure to Delete the Client ???
+		        </p>
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+		        <a href="" class="btn btn-danger" id="delClient">Delete</a>
+		      </div>
+		    </div>
+		  </div>
+	  </div>
+<!-- </div> -->
+<!-- </div> -->
+</div>
+</body>
+</html>
+
+
+

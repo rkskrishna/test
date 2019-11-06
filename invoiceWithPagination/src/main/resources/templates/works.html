@@ -1,0 +1,183 @@
+<html xmlns="http://thymeleaf.org">
+
+<head>
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet" type="text/css"></link>
+    <link th:href="@{/css/layout.css}" rel="stylesheet" type="text/css"></link>
+    <link th:href="@{/css/style.css}" rel="stylesheet" type="text/css"></link>
+
+<style type="text/css">
+	.button {
+		background-color: #76211B; /* Green */
+		border: none;
+		color: white;
+		padding: 15px 32px;
+		text-align: center;
+		text-decoration: none;
+		display: inline-block;
+		font-size: 12px;
+		margin: 4px 2px;
+		cursor: pointer;
+		-webkit-transition-duration: 0.4s; /* Safari */
+		transition-duration: 0.4s;
+	}
+	
+	.button1 {
+		box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.24), 0 6px 20px 0
+			rgba(0, 0, 0, 0.19);
+	}
+	
+	.button2 {
+		box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0
+			rgba(0, 0, 0, 0.19);
+	}
+	
+	.field-icon {
+		float: right;
+		margin-left: -11px;
+		margin-top: -21px;
+		position: relative;
+		z-index: 2;
+	}
+	
+	.container {
+		padding-top: 50px;
+		margin: auto;
+	}
+</style>
+<style>
+	p.ex1 {
+		margin-left: 2cm;
+	}
+	
+	p.ex2 {
+		margin-left: 6cm;
+	}
+	
+	p.ex3 {
+		margin-left: 2cm;
+	}
+</style>
+    
+</head>
+
+<body>
+    <div class="container">
+        <form class="form-horizontal" action="#" th:action="@{/addWorks.html}" th:object="${work}" method="post" >
+            <fieldset>
+
+                <!-- Form Client Name -->
+                <legend>Add/Edit Works</legend>
+
+                <!-- Text input-->
+                <div class="form-group">
+                    <label class="col-md-6 control-label" for="work_name">Work Name</label>
+                    <div class="col-md-6">
+                        <input id="work_name" th:field="*{work_name}" type="text" placeholder="Work Name" pattern="[A-Za-z]{10,50}" title="please do not input any digits or special characters!" class="form-control input-md" required="" />
+                    </div>
+                </div>
+
+				<!-- Text input Client Address-->
+                <div class="form-group">
+                    <label class="col-md-6 control-label" for="work_address">Work Address</label>
+                    <div class="col-md-6">
+                        <input id="work_address" th:field="*{work_address}" type="text" placeholder="Work Address" class="form-control input-md" required="" />
+                    </div>
+                </div>              
+                
+                
+                <!-- Button -->
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="submit"></label>
+                    <input type="hidden" th:value="${id}" th:field="*{id}"/>
+                    
+                    <!-- <div th:text="${id}"></div>
+                    <div class="col-md-4" th:if="${id != null}">
+                        <button id="submit" class="btn btn-primary btn-login">Update</button>
+                    </div> -->
+                    
+                    <div class="col-md-4">
+                        <button id="submit" class="butobtn btn-primary btn-login">Save</button>
+                    </div>
+                </div>
+
+            </fieldset>
+        </form>
+
+        <script type="text/javascript" th:src="@{/js/jquery-3.1.0.min.js}"></script>
+        <script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
+    </div>
+    <div class="row">
+		<div class="col-lg-12">
+			<div class="panel panel-default" align="center" style="margin: 2%;">
+				<div class="panel-heading" align="center" style="color: white;">
+					<strong>List of Works</strong>
+				</div>
+				
+				<div class="panel-body">
+					<div class="row">
+						<div class="col-lg-12" id="dvData">
+							<table
+								class="table table-hover table-responsive x table-bordered"
+								id="tabledata">
+								<thead style="background-color: activecaption;" id="headers">
+									<tr>
+										<th>#</th>
+										<th><strong>Work Id</strong></th>
+										<th><strong>Work Name</strong></th>
+										<th><strong>Address</strong></th>
+										<!-- <th><strong>Phone</strong></th>
+										<th><strong>Mobile</strong></th>
+										<th><strong>Fax</strong></th>
+										<th><strong>Email</strong></th>
+										<th><strong>GSTIN</strong></th> -->
+										<th colspan="2"><strong>Action</strong></th>
+									</tr>
+								</thead>
+								<tbody>
+								
+
+											 <tr th:each="listValue,itertor : ${users}">
+											 	<td th:text="${itertor.index+1}"></td>
+												<td th:text="${listValue.id}"></td>												
+												<td th:text=${listValue.work_name}></td>
+												<td th:text=${listValue.work_address}></td>
+												<td><a
+													th:href="@{/editWorks.html/{work_id}(work_id=${listValue.id})}"
+													class="btn btn-primary btn-circle btn-sm eBtn">
+													<i class="fa fa-edit "></i>Edit</a></td>
+														
+												<td>
+													 <!-- <form action = "#" th:action="@{/deleteOcc.html}" th:object="${client}" method="post" >
+													  <input type="hidden" th:value="${listValue.client_id}" th:field="*{client_id}"/>
+													  
+													  <button type="submit"  class="btn btn-danger btn-circle btn-sm confirmation eBtn" value="Delete">
+													      Delete
+													   </button>
+													</form>	 -->	
+												
+												
+													<a	th:href="@{/deleteWorks.html/{work_id}(work_id=${listValue.id})}"
+													class="btn btn-danger btn-circle btn-sm confirmation eBtn">
+													<i class="fa fa-trash-o"></i>
+													Delete
+													</a>
+												</td>
+												
+												<!-- <td><a	th:href="@{view(client_id=${listValue.client_id})}"
+													class="btn btn-info btn-circle btn-sm"><i
+														class="fa fa-info-circle"></i>View</a>
+												</td> -->
+											
+											   </tr>
+								</tbody>
+							</table>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>

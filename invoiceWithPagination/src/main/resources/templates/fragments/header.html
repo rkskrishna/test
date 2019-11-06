@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:fragment="header">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Home</title>
+
+<meta name="keywords" content="Home" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+<script   src="https://code.jquery.com/jquery-3.4.0.js"   integrity="sha256-DYZMCC8HTC+QDr5QNaIcfR7VSPtcISykd+6eSmBW5qo="   crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+
+
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+	integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+	crossorigin="anonymous" />
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+	integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
+	crossorigin="anonymous" />
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>	
+
+	
+<!-- <link rel="stylesheet" href="css/styles.css" /> -->
+<link href="/css/dash.css" rel="stylesheet"/>
+<style type="text/css">
+.footer {
+  background-color: #eee;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+</style>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+	integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+	crossorigin="anonymous">
+</script>
+
+<!--  -->
+<script th:inline="javascript">
+		/*<![CDATA[*/
+		$(document).ready(function() {
+	changePageAndSize();
+});
+
+function changePageAndSize() {
+	$('#pageSizeSelect').change(function(evt) {
+		jQuery.noConflict();
+		window.location.replace("/pageview?pageSize=" + this.value + "&page=1");
+	});
+}
+		/*]]>*/
+</script>
+	
+	<script>
+		    $(document).ready( function () {
+		        $('.nBtn, .table  .eBtn').on('click',function(event){
+		        	event.preventDefault(); 
+		        	jQuery.noConflict();
+		        	var href = $(this).attr('href');
+		        
+		        	var te=$(this).text();
+		        	console.log(te.trim(),href); 
+		        	/* console.log(te.trim(),href.trim()); */
+		        	 if (te.trim()=='Edit'){ 
+	                    $.get(href,function(clientlist,status){
+	                    	$('.myform #client_id').val(clientlist.client_id);
+	                    	$('.myform #client_name').val(clientlist.client_name);
+	                    	$('.myform #client_address').val(clientlist.client_address);
+	                    	$('.myform #client_mobile').val(clientlist.client_mobile);
+	                    	$('.myform #client_landline').val(clientlist.client_landline);
+	                    	$('.myform #client_fax').val(clientlist.client_fax);
+	                    	$('.myform #client_email').val(clientlist.client_email);
+	                    	$('.myform #client_gstin_uin').val(clientlist.client_gstin_uin); 
+			        	});
+	                   /*  console.log(te.trim(),href.trim()); */
+	                    
+		        		$('.myform #exampleModal').modal();
+		        	 }else{
+		        		$('.myform #client_name').val('');
+                    	$('.myform #client_address').val('');
+                    	$('.myform #client_mobile').val('');
+                    	$('.myform #client_landline').val('');
+                    	$('.myform #client_fax').val('');
+                    	$('.myform #client_email').val('');
+                    	$('.myform #client_gstin_uin').val('');
+                    	/* console.log(te.trim(),href.trim()); */
+                    	$('.myform #exampleModal').modal();
+		        	} 
+		        });
+		        
+		        $('.table .delBtn').on('click',function(event){
+		        	event.preventDefault();
+		        	jQuery.noConflict();
+		        	var href = $(this).attr('href');
+		        	$('#myModal #delClient').attr('href',href);
+		        	$('#myModal').modal();
+		        });
+		    } );
+	    </script>
+	    <!-- .pagination li  -->
+<!-- <script>
+    $(function(){
+    $("a").click(function(e){
+        e.preventDefault(); //To prevent the default anchor tag behaviour
+        var url = this.href;
+        console.log(url);
+        $("#content").load(url);
+        /* $(".main").load(url); */
+    });
+});
+</script> -->
+
+<!--  -->
+</head>
+
+<body>
+
+
+</body>
+
+</html>

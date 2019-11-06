@@ -1,0 +1,139 @@
+<html xmlns="http://thymeleaf.org">
+<head>
+   <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet" type="text/css"></link>
+   <link th:href="@{/oldcss/layout.css}" rel="stylesheet" type="text/css"></link>
+   <link th:href="@{/css/tabdesign.css}" rel="stylesheet" type="text/css"></link>
+   <link th:href="@{/css/style.css}" rel="stylesheet" type="text/css"></link>
+  
+ <style type="text/css">
+/* added by RAKESH */
+.button {
+	background-color: #76211B; /* Green */
+	border: none;
+	color: white;
+	padding: 15px 32px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 12px;
+	margin: 4px 2px;
+	cursor: pointer;
+	-webkit-transition-duration: 0.4s; /* Safari */
+	transition-duration: 0.4s;
+}
+
+.button1 {
+	box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.24), 0 6px 20px 0
+		rgba(0, 0, 0, 0.19);
+}
+
+.button2 {
+	box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0
+		rgba(0, 0, 0, 0.19);
+}
+
+.field-icon {
+	float: right;
+	margin-left: -11px;
+	margin-top: -21px;
+	position: relative;
+	z-index: 2;
+}
+
+.container {
+	padding-top: 50px;
+	margin: auto;
+}
+</style>
+<style>
+p.ex1 {
+	margin-left: 2cm;
+}
+
+p.ex2 {
+	margin-left: 6cm;
+}
+
+p.ex3 {
+	margin-left: 2cm;
+}
+</style>
+   
+</head>
+<body class="container-fluid" style="overflow-x: 100%;">
+ <div class="row">
+		<div class="add-height"></div>
+		<div class="col-lg-2"></div>
+		<div class="col-lg-12">
+			<div class="panel panel-default" align="center">
+				<div class="panel-heading" align="center" style="color: white;">
+					<strong>List of Clients</strong>
+				</div>
+				
+				<div class="panel-body">
+					<div class="row">
+						<div class="col-lg-12" id="dvData">
+							<table
+								class="table table-hover table-responsive x table-bordered"
+								id="tabledata">
+								<thead style="background-color: activecaption;" id="headers">
+									<tr>
+										<th>#</th>
+										<th><strong>Client Id</strong></th>
+										<th><strong>Client Name</strong></th>
+										<th><strong>Address</strong></th>
+										<th><strong>Phone</strong></th>
+										<th><strong>Mobile</strong></th>
+										<th><strong>Fax</strong></th>
+										<th><strong>Email</strong></th>
+										<th><strong>GSTIN</strong></th>
+										<th colspan="3"><strong>Action</strong></th>
+									</tr>
+								</thead>
+								<tbody>
+								
+
+											 <tr th:each="listValue,itertor : ${users}">
+											 	<td th:text="${itertor.index+1}"></td>
+												<td th:text="${listValue.client_id}"></td>
+												
+												<td th:text=${listValue.clientName}></td>
+												<td th:text=${listValue.clientAddress}></td>
+												<td th:text=${listValue.clientLandline}></td>
+												<td th:text=${listValue.clientMobile}></td>
+												<td th:text=${listValue.clientFax}></td>
+												<td th:text=${listValue.clientEmail}></td>
+												<td th:text=${listValue.clientGSTINUIN}></td>
+												<td><a
+													th:href="@{edit(client_id=${listValue.client_id})}"
+													class="btn btn-primary btn-circle btn-sm eBtn">
+													<i class="fa fa-edit "></i>Edit</a></td>
+														
+												<td><a	th:href="@{delete(client_id=${listValue.client_id})}"
+													class="btn btn-danger btn-circle btn-sm confirmation eBtn">
+													<i class="fa fa-trash-o"></i>
+													Delete
+													</a>
+												</td>
+												
+												<td><a	th:href="@{view(client_id=${listValue.client_id})}"
+													class="btn btn-info btn-circle btn-sm"><i
+														class="fa fa-info-circle"></i>View</a>
+												</td>
+											
+											   </tr>
+								</tbody>
+							</table>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	    <script type="text/javascript" th:src="@{/js/jquery-3.1.0.min.js}"></script>
+        <script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
+        <script type="text/javascript" th:src="@{/js/jquery.dataTables.min.js}"></script>
+        <script type="text/javascript" th:src="@{/js/dataTables.bootstrap.min.js}"></script>
+</body>
+</html>
